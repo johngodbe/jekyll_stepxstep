@@ -56,9 +56,9 @@ Since Jekyll is a static site generator, it has to build the site before we can 
 - `jekyll build` - Builds the site and outputs a static site to a directory called `_site`.
 - `jekyll serve` - Does `jekyll build` and runs it on a local web server at http://localhost:4000, rebuilding the site any time you make a change.
 
-> :warning: When you’re developing a site, use `jekyll serve`. To force the browser to refresh with every change, use `jekyll serve --livereload`. If there’s a conflict or you’d like Jekyll to serve your development site at a different URL, use the `--host` and `--port` arguments, as described in the `[serve command options](https://jekyllrb.com/docs/configuration/options/#serve-command-options).
+    :warning: When you’re developing a site, use `jekyll serve`. To force the browser to refresh with every change, use `jekyll serve --livereload`. If there’s a conflict or you’d like Jekyll to serve your development site at a different URL, use the `--host` and `--port` arguments, as described in the `[serve command options](https://jekyllrb.com/docs/configuration/options/#serve-command-options).
 
-> :bulb: The version of the site that jekyll serve builds in `_site` is not suited for deployment. Links and asset URLs in sites created with `jekyll serve` will use `https://localhost:4000` or the value set with command-line configuration, instead of the values set in your [site’s configuration file](https://jekyllrb.com/docs/configuration/). To learn about how to build your site when it’s ready for deployment, read the [Deployment](https://jekyllrb.com/docs/step-by-step/10-deployment/) section of this tutorial.
+    :bulb: The version of the site that jekyll serve builds in `_site` is not suited for deployment. Links and asset URLs in sites created with `jekyll serve` will use `https://localhost:4000` or the value set with command-line configuration, instead of the values set in your [site’s configuration file](https://jekyllrb.com/docs/configuration/). To learn about how to build your site when it’s ready for deployment, read the [Deployment](https://jekyllrb.com/docs/step-by-step/10-deployment/) section of this tutorial.
 
 Run `jekyll serve` and go to http://localhost:4000 in your browser. You should see “Hello World!”.
 
