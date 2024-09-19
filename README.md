@@ -50,7 +50,7 @@ Let’s add your first file. Create `index.html` in **root** with the following 
 </html>
 ~~~
 
-### Build {#build}
+### Build
 Since Jekyll is a static site generator, it has to build the site before we can view it. Run either of the following commands to build your site:
 
 - `jekyll build` - Builds the site and outputs a static site to a directory called `_site`.
@@ -68,7 +68,7 @@ Patience, young grasshopper, there’s still much to learn!
 
 Next. you’ll learn about Liquid and templating.
 
-## 2. Liquid {#liquid}
+## 2. Liquid
 Liquid is where Jekyll starts to get more interesting. It is a templating language which has three main components:
 
 - objects
@@ -147,6 +147,174 @@ Your HTML document should look like this:
 
 When you reload your browser, you should see `hello world!`.
 
+___
+
 Much of Jekyll’s power comes from combining Liquid with other features. Add frontmatter to pages to make Jekyll process the Liquid on those pages.
 
-Next, you’ll learn more about frontmatter.
+## 3. Front Matter
+Front matter is a snippet of YAML placed between two triple-dashed lines at the start of a file. You can use front matter to set variables for the page:
+
+~~~
+---
+my_number: 5
+---
+~~~
+
+You can call front matter variables in Liquid using the page variable. For example, to output the value of the `my_number` variable above:
+
+~~~
+{{ page.my_number }}
+~~~
+
+### Use front matter
+Change the `<title>` on your site to use front matter:
+
+~~~html
+---
+title: Home
+---
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{ page.title }}</title>
+  </head>
+  <body>
+    <h1>{{ "Hello World!" | downcase }}</h1>
+  </body>
+</html>
+~~~
+
+    :warning: You must include front matter on the page for Jekyll to process any Liquid tags on it. 
+
+To make Jekyll process a page without defining variables in the front matter, use:
+
+~~~
+---
+---
+~~~
+
+## 4. Layouts
+Jekyll supports Markdown in addition to HTML when building pages. Markdown is a great choice for pages with a simple content structure (just paragraphs, headings and images), as it’s less verbose than raw HTML.
+
+Create a new Markdown file named `about.md` in your site’s root folder.
+
+You could copy the contents of `index` and modify it for the About page. However, this creates duplicate code that has to be customized for each new page you add to your site.
+
+For example, adding a new stylesheet to your site would involve adding the link to the stylesheet to the `<head>` of each page. For sites with many pages, this is a waste of time.
+
+### Creating a layout
+Layouts are templates that can be used by any page in your site and wrap around page content. They are stored in a directory called `_layouts`.
+
+Create the `_layouts` directory in your site’s root folder and create a new `default.html` file with the following content:
+
+~~~html
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{ page.title }}</title>
+  </head>
+  <body>
+    {{ content }}
+  </body>
+</html>
+~~~
+
+This HTML is almost identical to `index.html` except there’s no front matter and the content of the page is replaced by a `content` variable.
+
+`content` is a special variable that returns the rendered content of the page on which it’s called.
+
+### Use layouts
+To make `index.html` use your new layout, set the layout variable in the front matter. The file should look like this:
+
+~~~html
+---
+layout: default
+title: Home
+---
+<h1>{{ "Hello World!" | downcase }}</h1>
+~~~
+
+When you reload the site, the output remains the same.
+
+Since the layout wraps around the content on the page, you can call front matter like page in the layout file. When you apply the layout to a page, it uses the front matter on that page.
+
+### Build the About page
+Add the following to `about.md` to use your new layout in the About page:
+
+~~~
+---
+layout: default
+title: About
+---
+# About page
+
+This page tells you a little bit about me.
+~~~
+
+Open `http://localhost:4000/about.html` in your browser and view your new page.
+
+Congratulations, you now have a two page website!
+
+Next, you’ll learn about navigating from page to page in your site.
+
+## 5. Includes
+The site is coming together; however, there’s no way to navigate between pages. Let’s fix that.
+
+Navigation should be on every page so adding it to your layout is the correct place to do this. Instead of adding it directly to the layout, let’s use this as an opportunity to learn about includes.
+
+### Include tag
+The include tag allows you to include content from another file stored in an _includes folder. Includes are useful for having a single source for source code that repeats around the site or for improving the readability.
+
+Navigation source code can get complex, so sometimes it’s nice to move it into an include.
+
+### Include usage
+Create a file for the navigation at _includes/navigation.html with the following content:
+
+~~~html
+<nav>
+  <a href="/">Home</a>
+  <a href="/about.html">About</a>
+</nav>
+~~~
+
+Try using the include tag to add the navigation to _layouts/default.html:
+
+~~~html
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{ page.title }}</title>
+  </head>
+  <body>
+    {% include navigation.html %}
+    {{ content }}
+  </body>
+</html>
+~~~
+
+Open http://localhost:4000 in your browser and try switching between the pages.
+
+### Current page highlighting
+Let’s take this a step further and highlight the current page in the navigation.
+
+_includes/navigation.html needs to know the URL of the page it’s inserted into so it can add styling. Jekyll has useful variables available, one of which is page.url.
+
+Using page.url you can check if each link is the current page and color it red if true:
+
+~~~html
+<nav>
+  <a href="/" {% if page.url == "/" %}style="color: red;"{% endif %}>
+    Home
+  </a>
+  <a href="/about.html" {% if page.url == "/about.html" %}style="color: red;"{% endif %}>
+    About
+  </a>
+</nav>
+~~~
+
+Take a look at http://localhost:4000 and see your red link for the current page.
+
+There’s still a lot of repetition here if you wanted to add a new item to the navigation or change the highlight color. In the next step we’ll address this.
