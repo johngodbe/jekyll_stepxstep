@@ -3,7 +3,7 @@
 ## 1. Setup
 Welcome to Jekyll’s step-by-step tutorial. This tutorial takes you from having some front-end web development experience to building your first Jekyll site from scratch without relying on the default gem-based theme.
 
-## Installation
+### Installation
 Jekyll is a Ruby gem. First, install Ruby on your machine. Go to [Installation](https://jekyllrb.com/docs/installation/) and follow the instructions for your operating system.
 
 With Ruby installed, install Jekyll from the terminal:
@@ -28,7 +28,7 @@ Run `bundle` to install jekyll for your project.
 
 You can now prefix all jekyll commands listed in this tutorial with `bundle exec` to make sure you use the jekyll version defined in your `Gemfile`.
 
-## Create a site
+### Create a site
 It’s time to create a site! Create a new directory for your site and name it whatever you want. Through the rest of this tutorial we’ll refer to this directory as **root**.
 
 You can also initialize a Git repository here.
@@ -50,7 +50,7 @@ Let’s add your first file. Create `index.html` in **root** with the following 
 </html>
 ~~~
 
-## Build
+### Build {#build}
 Since Jekyll is a static site generator, it has to build the site before we can view it. Run either of the following commands to build your site:
 
 - `jekyll build` - Builds the site and outputs a static site to a directory called `_site`.
@@ -67,3 +67,86 @@ At this point, you might be thinking, “So what?”. The only thing that happen
 Patience, young grasshopper, there’s still much to learn!
 
 Next. you’ll learn about Liquid and templating.
+
+## 2. Liquid {#liquid}
+Liquid is where Jekyll starts to get more interesting. It is a templating language which has three main components:
+
+- objects
+- tags
+- filters
+
+### Objects
+Objects tell Liquid to output predefined variables as content on a page. Use double curly braces for objects: `{{` and `}}`.
+
+For example, `{{ page.title }}` displays the `page.title` variable.
+
+### Tags
+Tags define the logic and control flow for templates. Use curly braces and percent signs for tags: `{% and %}`.
+
+For example:
+
+~~~html
+{% if page.show_sidebar %}
+  <div class="sidebar">
+    sidebar content
+  </div>
+{% endif %}
+~~~
+
+This displays the sidebar if the value of the `show_sidebar` page variable is true.
+
+Learn more about the tags available in Jekyll `[here](https://jekyllrb.com/docs/liquid/tags/).
+
+### Filters
+Filters change the output of a Liquid object. They are used within an output and are separated by a `|`.
+
+For example:
+
+~~~html
+{{ "hi" | capitalize }}
+~~~
+
+This displays `Hi` instead of `hi`.
+
+[Learn more about the filters available](https://jekyllrb.com/docs/liquid/filters/).
+
+### Use Liquid
+Now, use Liquid to make your `Hello World!` text from [Setup](#1-setup) lowercase:
+
+~~~html
+...
+<h1>{{ "Hello World!" | downcase }}</h1>
+...
+~~~
+
+To make Jekyll process your changes, add front matter to the top of the page:
+
+~~~html
+---
+# front matter tells Jekyll to process Liquid
+---
+~~~
+
+Your HTML document should look like this:
+
+~~~html
+---
+---
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Home</title>
+  </head>
+  <body>
+    <h1>{{ "Hello World!" | downcase }}</h1>
+  </body>
+</html>
+~~~
+
+When you reload your browser, you should see `hello world!`.
+
+Much of Jekyll’s power comes from combining Liquid with other features. Add frontmatter to pages to make Jekyll process the Liquid on those pages.
+
+Next, you’ll learn more about frontmatter.
