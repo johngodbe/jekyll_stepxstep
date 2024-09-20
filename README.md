@@ -890,8 +890,8 @@ JEKYLL_ENV=production bundle exec jekyll build
 
 And then copy the contents of `_site` to your server.
 
-:warning: Destination folders are cleaned on site builds
-The contents of _site are automatically cleaned, by default, when the site is built. Files or folders that are not created by your site's build process will be removed.
+:warning: **Destination folders are cleaned on site builds**<br>
+The contents of _site are automatically cleaned, by default, when the site is built. Files or folders that are not created by your site's build process will be removed.<br>
 Some files could be retained by specifying them within the keep_files configuration directive. Other files could be retained by keeping them in your assets directory.
 
 A better way is to automate this process using a [CI](https://jekyllrb.com/docs/deployment/automated/) or [3rd party](https://jekyllrb.com/docs/deployment/third-party/).
